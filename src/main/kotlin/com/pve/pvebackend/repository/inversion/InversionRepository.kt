@@ -9,8 +9,6 @@ import reactor.core.publisher.Mono
 
 @Repository
 interface InversionRepository: CrudRepository<Inversion, Int>{
-
-    fun findInversionById(id: Int): Mono<Inversion>;
-    fun findInversionByUsuario(nombre: String): Flux<Inversion>;
-    //fun findInversionByInversion_code(codigo: String): List<Inversion>
+    fun findInversionById(id: Int): Inversion;
+    fun findInversionByUsuario(nombre: String): List<Inversion>;
 }
