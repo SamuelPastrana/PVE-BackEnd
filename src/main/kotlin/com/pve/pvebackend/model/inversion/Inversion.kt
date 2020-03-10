@@ -7,18 +7,16 @@ import javax.persistence.*
 class Inversion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private val id = 0;
-
-    @Column(name = "inversionCode")
-    val inversionCode = 0;
-    val inversionNumber = 0;
-    private val infraMaquinas = 0;
-    private val equiposInformaticos = 0;
-    private val vehiculos = 0;
-    private val totalNoCorriente = 0;
-    private val existenciasIniciales = 0;
-    private val liquidez = 0;
-    private val totalCorriente = 0;
-    private val totalInversion = 0;
+    var id: Int = 0
+    var inversion_code: String = "";
+    var usuario: String = "";
+    var infra_maquinas: Int = 0;
+    var equipos_informaticos: Int = 0;
+    var vehiculos: Int = 0;
+    var total_no_corriente: Int = 0;
+    var existencias_iniciales: Int = 0;
+    var liquidez: Int = 0;
+    var total_corriente: Int = 0;
+    var total_inversion: Int = 0;
 
 }
