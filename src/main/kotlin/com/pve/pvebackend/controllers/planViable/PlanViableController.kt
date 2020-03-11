@@ -1,6 +1,7 @@
 package com.pve.pvebackend.controllers.planViable
 
 import com.pve.pvebackend.model.planViable.PlanViable
+import com.pve.pvebackend.model.planViable.PlanViableRequest
 import com.pve.pvebackend.services.planViable.PlanViableService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,7 @@ class PlanViableController() {
     lateinit var service: PlanViableService;
 
     @GetMapping("/plan_inversion/{usuario}")
-    fun obtenerPlanViablePorUsuario(@PathVariable usuario: String): Mono<PlanViable> {
+    fun obtenerPlanViablePorUsuario(@PathVariable usuario: String): Mono<PlanViableRequest> {
         return service.obtenerPlanViablePorUsuario(usuario);
     }
 

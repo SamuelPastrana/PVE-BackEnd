@@ -19,8 +19,8 @@ class InversionServiceImple : InversionService {
 
     }
 
-    override fun obtenerInversionesPorUsuario(nombre: String): Flux<Inversion> {
-        return Flux.fromIterable(repository.findInversionByUsuario(nombre))
+    override fun obtenerInversionesPorCodigoPlan(codigo: String): Flux<Inversion> {
+        return Flux.fromIterable(repository.findInversionByCodigoPlan(codigo))
     }
 
 }

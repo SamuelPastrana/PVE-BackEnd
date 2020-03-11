@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
-interface InversionRepository: CrudRepository<Inversion, Int>{
+interface InversionRepository: CrudRepository<Inversion, Long>{
     fun findInversionById(id: Int): Inversion;
-    fun findInversionByUsuario(nombre: String): List<Inversion>;
+    fun findInversionByCodigoPlan(codigo_plan: String): List<Inversion>;
 }
