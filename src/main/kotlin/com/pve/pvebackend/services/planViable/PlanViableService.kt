@@ -1,11 +1,10 @@
 package com.pve.pvebackend.services.planViable
 
-import com.pve.pvebackend.model.inversion.Inversion
-import com.pve.pvebackend.model.planViable.PlanViable
 import com.pve.pvebackend.model.planViable.PlanViableRequest
-import reactor.core.publisher.Flux
+import com.pve.pvebackend.model.planViable.PlanViableResponse
 import reactor.core.publisher.Mono
 
 interface PlanViableService {
-    fun obtenerPlanViablePorUsuario(usuario: String): Mono<PlanViableRequest>
+    fun obtenerPlanViablePorUsuario(usuario: String): Mono<PlanViableResponse>
+    fun guardarPlanViableInformacion(planViable: PlanViableRequest): Mono<Void>
 }

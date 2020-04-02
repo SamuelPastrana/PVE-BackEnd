@@ -1,15 +1,23 @@
 package com.pve.pvebackend.model.planViable
 
 import com.pve.pvebackend.model.calculosIntermedios.CalculoIntermedio
+import com.pve.pvebackend.model.financiacion.Financiacion
 import com.pve.pvebackend.model.inversion.Inversion
-import com.pve.pvebackend.model.presupuesto.Presupuesto
+import lombok.AllArgsConstructor
+import lombok.Builder
+import lombok.Data
+import lombok.NoArgsConstructor
 import java.util.*
 
-class PlanViableRequest(inversiones: List<Inversion>, planViable: PlanViable) {
-    var codigo_plan: String = planViable.codigoPlan
-    var id_usuario: String = planViable.idUsuario
-    var fecha_creacion: Date = planViable.fechaCreacion
-    var inversiones: List<Inversion> = inversiones
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
+class PlanViableRequest {
+    var codigo_plan: String = ""
+    var id_usuario: String = ""
+    var fecha_creacion: Date? = null
+    var inversiones: List<Inversion> = listOf(Inversion())
     var calculos_intermedios: List<CalculoIntermedio> = listOf(CalculoIntermedio())
-    var presupuestos: List<Presupuesto> = listOf(Presupuesto())
+    var financiacion: List<Financiacion> = listOf(Financiacion())
 }
