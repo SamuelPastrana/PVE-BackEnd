@@ -54,7 +54,7 @@ class PlanViableServiceImple : PlanViableService, GenerateUniqueCodePlan {
                 .flatMap { planViableRequest ->
                     crearPlanViable(planViableRequest.id_usuario, planViable.codigo_plan)
                             .flatMap { plan ->
-                                Mono.just(inversionService.guardarInversiones(planViable.inversiones, plan.codigoPlan))
+                                inversionService.guardarInversiones(planViable.inversiones, plan.codigoPlan)
                                         .then(presupuestoService.guardarPresupuestos(planViable.presupuestos, planViable.codigo_plan))
                             }
                 }
