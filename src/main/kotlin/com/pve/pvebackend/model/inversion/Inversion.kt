@@ -28,7 +28,8 @@ class Inversion() {
     var totalCorriente: Int = 0
     var totalInversion: Int = 0
 
-    constructor(codigoPlan: String, tiempo: String, infraMaquinas: Int, mobiliario: Int, otros: Int, equiposInformaticos: Int, vehiculos: Int, totalNoCorriente: Int, existenciasIniciales: Int, liquidez: Int, totalCorriente: Int, totalInversion: Int) : this() {
+    constructor(id: Int, codigoPlan: String, tiempo: String, infraMaquinas: Int, mobiliario: Int, otros: Int, equiposInformaticos: Int, vehiculos: Int, totalNoCorriente: Int, existenciasIniciales: Int, liquidez: Int, totalCorriente: Int, totalInversion: Int) : this() {
+        this.id = id
         this.codigoPlan = codigoPlan
         this.tiempo = tiempo
         this.infraMaquinas = infraMaquinas

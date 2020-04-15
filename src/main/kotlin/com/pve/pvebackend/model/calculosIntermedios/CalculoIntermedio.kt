@@ -5,7 +5,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 class CalculoIntermedio {
-    @Id
+   /* @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Int = 0
     var codigoPlan: String = ""
@@ -19,5 +19,5 @@ class CalculoIntermedio {
     var existenciasIniciales: Int = 0
     var liquidez: Int = 0
     var totalCorriente: Int = 0
-    var totalInversion: Int = 0
+    var totalInversion: Int = 0*/
 }

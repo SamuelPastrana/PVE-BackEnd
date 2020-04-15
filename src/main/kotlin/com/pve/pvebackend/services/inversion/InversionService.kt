@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono
 
 interface InversionService {
     fun obtenerInversionesPorCodigo(id: Int): Mono<Inversion>
-    fun obtenerInversionesPorCodigoPlan(codigo: String): Flux<Inversion>
+    fun obtenerInversionesPorCodigoPlan(codigo: String): List<Inversion>
     fun guardarInversiones(inversiones: List<Inversion>, codigoPlan: String): Mono<Void>
+    fun actualizarInversiones(inversiones: List<Inversion>): Mono<Void>
 }

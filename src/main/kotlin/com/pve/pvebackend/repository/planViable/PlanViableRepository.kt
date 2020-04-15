@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono
 @Repository
 interface PlanViableRepository: CrudRepository<PlanViable, Int> {
     fun findPlanViableByIdUsuario(idUsuario: String): PlanViable
+    fun findPlanViableByCodigoPlan(codigo: String): PlanViable
 }
