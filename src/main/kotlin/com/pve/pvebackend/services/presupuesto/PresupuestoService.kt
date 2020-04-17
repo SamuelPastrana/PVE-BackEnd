@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 interface PresupuestoService {
-    fun obtenerInversionesPorCodigoPlan(codigo: String): List<Presupuesto>
-    fun obtenerInversionesPorCodigo(id: Int): Mono<Presupuesto>
+    fun obtenerPresupuestoPorCodigoPlan(codigo: String): List<Presupuesto>
+    fun obtenerPresupuestosPorId(id: Int): Mono<Presupuesto>
     fun guardarPresupuestos(presupuestos: List<Presupuesto>, codigoPlan: String): Mono<Void>
 }
