@@ -60,6 +60,8 @@ class PlanViableServiceImple : PlanViableService, GenerateUniqueCodePlan {
                 }
     }
 
+    //Se esta duplucando el resgistro por que no se añade la informacion traida del back
+
     fun crearObjetoPlanViableRespuesta(planViable: PlanViable, inversiones: List<Inversion>, presupuestos: List<Presupuesto>): Mono<PlanViableResponse> {
         return Mono.just(PlanViableResponse(planViable, inversiones, presupuestos))
     }
