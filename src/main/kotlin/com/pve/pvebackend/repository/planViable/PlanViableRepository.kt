@@ -1,6 +1,5 @@
 package com.pve.pvebackend.repository.planViable
 
-import com.pve.pvebackend.model.planViable.PlanViable
 import com.pve.pvebackend.model.proyecto.Proyecto
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

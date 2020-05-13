@@ -2,23 +2,13 @@ package com.pve.pvebackend.services.planViable
 
 import com.pve.pvebackend.exceptions.ExcepcionNegocio
 import com.pve.pvebackend.helpers.GenerateUniqueCodeProyecto
-import com.pve.pvebackend.model.inversion.Inversion
-import com.pve.pvebackend.model.planViable.PlanViable
-import com.pve.pvebackend.model.planViable.PlanViableRequest
-import com.pve.pvebackend.model.planViable.PlanViableResponse
-import com.pve.pvebackend.model.presupuestos.Presupuesto
 import com.pve.pvebackend.model.proyecto.Proyecto
-import com.pve.pvebackend.repository.inversion.InversionRepository
 import com.pve.pvebackend.repository.planViable.PlanViableRepository
-import com.pve.pvebackend.services.inversion.InversionService
-import com.pve.pvebackend.services.presupuesto.PresupuestoService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.*
-import java.util.function.Predicate
 
 @Service
 class PlanViableServiceImple : PlanViableService, GenerateUniqueCodeProyecto {

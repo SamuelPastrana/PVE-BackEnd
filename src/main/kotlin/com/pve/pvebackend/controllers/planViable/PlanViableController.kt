@@ -1,7 +1,5 @@
 package com.pve.pvebackend.controllers.planViable
 
-import com.pve.pvebackend.model.planViable.PlanViableRequest
-import com.pve.pvebackend.model.planViable.PlanViableResponse
 import com.pve.pvebackend.model.proyecto.Proyecto
 import com.pve.pvebackend.services.planViable.PlanViableService
 import org.springframework.beans.factory.annotation.Autowired
