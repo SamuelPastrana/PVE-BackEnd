@@ -14,42 +14,32 @@ class PresupuestoServiceImple : PresupuestoService {
     @Autowired
     lateinit var repository: PresupuestoRepository
 
-    override fun obtenerInversionesPorCodigoPlan(codigo: String): List<Presupuesto> {
-        return repository.findPresupuestoByCodigoPlan(codigo)
+    override fun obtenerPresupuestosPorCodigoProyecto(codigo: String): Flux<Presupuesto> {
+        return Flux.fromIterable(repository.findPresupuestoByCodigoProyecto(codigo))
     }
 
-    override fun obtenerInversionesPorCodigo(id: Int): Mono<Presupuesto> {
+    override fun obtenerInversionesPorId(id: Int): Mono<Presupuesto> {
         return Mono.just(repository.findPresupuestoById(id))
 
     }
 
-    override fun guardarPresupuestos(presupuestos: List<Presupuesto>, codigoPlan: String): Mono<Void> {
+    override fun guardarPresupuestos(presupuestos: List<Presupuesto>): Mono<Void> {
+        return Flux.fromIterable(presupuestos)
+                .flatMap { prespuesto ->
+                    crearPresupuesto(prespuesto)
+                            .flatMap { presupuestoData -> Mono.just(repository.save(presupuestoData)) }
+                }.then()
+    }
 
-        if (presupuestos.isNotEmpty() && "" != presupuestos.get(0).codigoPlan) {
-            return Flux.fromIterable(presupuestos)
-                    .flatMap { presupuesto ->
-                        obtenerInversionesPorCodigo(presupuesto.id)
-                                .flatMap { presupuestoDb ->
-                                    crearPresupuesto(presupuesto, presupuestoDb.codigoPlan)
-                                            .flatMap { inversionNew -> Mono.just(repository.save(inversionNew)) }
-                                }
-                    }
-                    .then()
+    fun crearPresupuesto(presupuesto: Presupuesto): Mono<Presupuesto> {
+        return if (presupuesto.id > 0) {
+            Mono.just(Presupuesto(presupuesto.id, presupuesto.codigoProyecto, presupuesto.tiempo, presupuesto.ahorros,
+                    presupuesto.prestamoFamilia, presupuesto.otros, presupuesto.recursosPropios, presupuesto.premios, presupuesto.intercambios, presupuesto.cursos,
+                    presupuesto.financiacionCoste))
         } else {
-            return Flux.fromIterable(presupuestos)
-                    .map { presupuesto -> presupuesto }
-                    .flatMap { presupuesto ->
-                        crearPresupuesto(presupuesto, codigoPlan)
-                                .flatMap { presupuestoNew -> Mono.just(repository.save(presupuestoNew)) }
-                    }
-                    .then()
+            Mono.just(Presupuesto(0, presupuesto.codigoProyecto, presupuesto.tiempo, presupuesto.ahorros,
+                    presupuesto.prestamoFamilia, presupuesto.otros, presupuesto.recursosPropios, presupuesto.premios, presupuesto.intercambios, presupuesto.cursos,
+                    presupuesto.financiacionCoste))
         }
-
     }
-
-    fun crearPresupuesto(presupuesto: Presupuesto, codigoPlan: String): Mono<Presupuesto> {
-        return Mono.just(Presupuesto(presupuesto.id, codigoPlan, presupuesto.tiempo, presupuesto.ahorros, presupuesto.prestamoFamilia,
-                presupuesto.otros, presupuesto.recursosPropios, presupuesto.premios, presupuesto.intercambios, presupuesto.cursos, presupuesto.financiacionCoste))
-    }
-
 }

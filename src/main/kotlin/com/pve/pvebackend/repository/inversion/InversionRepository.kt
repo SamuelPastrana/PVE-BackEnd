@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface InversionRepository: CrudRepository<Inversion, Long>{
     fun findInversionById(id: Int): Inversion;
-    fun findInversionByCodigoPlan(codigo_plan: String): List<Inversion>;
+    fun findInversionByCodigoProyecto(codigo_proyecto: String): List<Inversion>;
 }

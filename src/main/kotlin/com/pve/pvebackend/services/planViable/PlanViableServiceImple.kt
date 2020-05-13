@@ -1,12 +1,13 @@
 package com.pve.pvebackend.services.planViable
 
 import com.pve.pvebackend.exceptions.ExcepcionNegocio
-import com.pve.pvebackend.helpers.GenerateUniqueCodePlan
+import com.pve.pvebackend.helpers.GenerateUniqueCodeProyecto
 import com.pve.pvebackend.model.inversion.Inversion
 import com.pve.pvebackend.model.planViable.PlanViable
 import com.pve.pvebackend.model.planViable.PlanViableRequest
 import com.pve.pvebackend.model.planViable.PlanViableResponse
 import com.pve.pvebackend.model.presupuestos.Presupuesto
+import com.pve.pvebackend.model.proyecto.Proyecto
 import com.pve.pvebackend.repository.inversion.InversionRepository
 import com.pve.pvebackend.repository.planViable.PlanViableRepository
 import com.pve.pvebackend.services.inversion.InversionService
@@ -16,67 +17,42 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.util.*
 import java.util.function.Predicate
 
 @Service
-class PlanViableServiceImple : PlanViableService, GenerateUniqueCodePlan {
+class PlanViableServiceImple : PlanViableService, GenerateUniqueCodeProyecto {
 
     @Autowired
     lateinit var planViableRepository: PlanViableRepository
 
-    @Autowired
-    lateinit var inversionService: InversionService
-
-    @Autowired
-    lateinit var presupuestoService: PresupuestoService
-
-    override fun obtenerPlanViablePorUsuario(usuario: String): Mono<PlanViableResponse> {
-        try {
-            return Mono.just(planViableRepository.findPlanViableByIdUsuario(usuario))
-                    .flatMap { planViable ->
-                        Mono.just(inversionService.obtenerInversionesPorCodigoPlan(planViable.codigoPlan))
-                                .zipWith(Mono.just(presupuestoService.obtenerInversionesPorCodigoPlan(planViable.codigoPlan)))
-                                .flatMap { objects -> crearObjetoPlanViableRespuesta(planViable, objects.t1, objects.t2) }
-                    }
-        } catch (e: EmptyResultDataAccessException) {
-            return Mono.error(ExcepcionNegocio("Aun no tienes información registrada, crea tu primer plan viable"))
-        }
-
+    override fun obtenerProyectosPorUsuario(usuario: String): Flux<Proyecto> {
+        return Flux.fromIterable(planViableRepository.findProyectoByIdUsuario(usuario));
     }
 
-    override fun obteberPlanViablePorCodigoPlan(codigo: String): Mono<PlanViable> {
-        return Mono.just(planViableRepository.findPlanViableByCodigoPlan(codigo))
+    override fun obtenerProyectoPorCodigo(codigo: String): Mono<Proyecto> {
+        return Mono.just(planViableRepository.findProyectoByCodigoProyecto(codigo))
     }
 
-    override fun guardarPlanViableInformacion(planViable: PlanViableRequest): Mono<Void> {
-        return Mono.just(planViable)
-                .filter { "" != planViable.id_usuario }
-                .flatMap { planViableRequest ->
-                    crearPlanViable(planViableRequest.id_usuario, planViable.codigo_plan)
-                            .flatMap { plan ->
-                                inversionService.guardarInversiones(planViable.inversiones, plan.codigoPlan)
-                                        .then(presupuestoService.guardarPresupuestos(planViable.presupuestos, planViable.codigo_plan))
-                            }
-                }
+    override fun guardarProyecto(proyecto: Proyecto): Mono<Proyecto> {
+        return Mono.just(proyecto)
+                .filter { "" != proyecto.idUsuario }
+                .flatMap { proyectoCrear -> crearProyecto(proyectoCrear) }
+                .flatMap { proyectGuardar -> Mono.just(planViableRepository.save(proyectGuardar)) }
+                .switchIfEmpty(Mono.error(ExcepcionNegocio("No se pudo guardar el proyecto")))
     }
 
-    //Se esta duplucando el resgistro por que no se añade la informacion traida del back
+    fun crearProyecto(proyecto: Proyecto): Mono<Proyecto> {
+        val codigoProyecto = generateCodigoProyecto()
+        var proyectoDb: Proyecto? = null;
 
-    fun crearObjetoPlanViableRespuesta(planViable: PlanViable, inversiones: List<Inversion>, presupuestos: List<Presupuesto>): Mono<PlanViableResponse> {
-        return Mono.just(PlanViableResponse(planViable, inversiones, presupuestos))
-    }
-
-    fun crearPlanViable(idUsuario: String, codigoPlanLlega: String): Mono<PlanViable> {
-        val codigoPlan = generateCodigoPlan()
-        var planViable: PlanViable? = null;
-
-        if (codigoPlanLlega != "")
-            planViable = planViableRepository.findPlanViableByCodigoPlan(codigoPlanLlega)
-        return if (planViable == null) {
-            Mono.just(PlanViable(codigoPlan.toString(), idUsuario))
+        if (proyecto.codigoProyecto != "")
+            proyectoDb = planViableRepository.findProyectoByCodigoProyecto(proyecto.codigoProyecto)
+        return if (proyectoDb == null) {
+            Mono.just(Proyecto(0, codigoProyecto.toString(), proyecto.nombre, proyecto.descripcion, proyecto.logo, Date(), proyecto.idUsuario))
                     .flatMap { planVi -> Mono.just(planViableRepository.save(planVi)) }
         } else {
-            Mono.just(planViable)
+            Mono.just(Proyecto(proyecto.id, proyecto.codigoProyecto, proyecto.nombre, proyecto.descripcion, proyecto.logo, proyecto.fecha_creacion, proyecto.idUsuario))
         }
 
     }

@@ -15,7 +15,7 @@ class Inversion() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
-    var codigoPlan: String = ""
+    var codigoProyecto: String = ""
     var tiempo: String = ""
     var infraMaquinas: Int = 0
     var mobiliario: Int = 0
@@ -28,9 +28,9 @@ class Inversion() {
     var totalCorriente: Int = 0
     var totalInversion: Int = 0
 
-    constructor(id: Int, codigoPlan: String, tiempo: String, infraMaquinas: Int, mobiliario: Int, otros: Int, equiposInformaticos: Int, vehiculos: Int, totalNoCorriente: Int, existenciasIniciales: Int, liquidez: Int, totalCorriente: Int, totalInversion: Int) : this() {
+    constructor(id: Int, codigoProyecto: String, tiempo: String, infraMaquinas: Int, mobiliario: Int, otros: Int, equiposInformaticos: Int, vehiculos: Int, totalNoCorriente: Int, existenciasIniciales: Int, liquidez: Int, totalCorriente: Int, totalInversion: Int) : this() {
         this.id = id
-        this.codigoPlan = codigoPlan
+        this.codigoProyecto = codigoProyecto
         this.tiempo = tiempo
         this.infraMaquinas = infraMaquinas
         this.mobiliario = mobiliario
