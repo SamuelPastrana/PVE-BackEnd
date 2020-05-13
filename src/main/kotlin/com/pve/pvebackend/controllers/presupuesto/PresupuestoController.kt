@@ -1,6 +1,5 @@
 package com.pve.pvebackend.controllers.presupuesto
 
-import com.pve.pvebackend.model.inversion.Inversion
 import com.pve.pvebackend.model.presupuestos.Presupuesto
 import com.pve.pvebackend.services.presupuesto.PresupuestoService
 import org.springframework.beans.factory.annotation.Autowired
